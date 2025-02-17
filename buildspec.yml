@@ -1,9 +1,9 @@
 version: 0.2
 env:
   variables:
-    AWS_DEFAULT_REGION: "ap-south-1"  # Ensure this matches your AWS region
+    AWS_DEFAULT_REGION: "ap-south-1"
     AWS_ACCOUNT_ID: "954976317841"
-    ECR_REPO: "e-commerce"  # Your ECR repo name
+    ECR_REPO: "e-commerce"
 
 phases:
   pre_build:
@@ -14,8 +14,9 @@ phases:
   build:
     commands:
       - echo Building Docker image...
-      - docker build -t $ECR_REPO .
-  
+      - ls -la  # Check if the Dockerfile exists
+      - docker build -t $ECR_REPO -f ./Dockerfile .  # Ensure correct Dockerfile path
+
   post_build:
     commands:
       - echo Tagging and Pushing Docker image...
