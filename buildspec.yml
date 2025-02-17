@@ -3,8 +3,7 @@ env:
   variables:
     AWS_DEFAULT_REGION: "ap-south-1"  # Ensure this matches your AWS region
     AWS_ACCOUNT_ID: "954976317841"
-    REPO_FRONTEND: "ecommerce-frontend"
-    REPO_BACKEND: "ecommerce-backend"
+    ECR_REPO: "e-commerce"  # Your ECR repo name
 
 phases:
   pre_build:
@@ -14,18 +13,14 @@ phases:
 
   build:
     commands:
-      - echo Building Frontend...
-      - docker build -t $REPO_FRONTEND ./frontend
-      - echo Building Backend...
-      - docker build -t $REPO_BACKEND ./backend
-
+      - echo Building Docker image...
+      - docker build -t $ECR_REPO .
+  
   post_build:
     commands:
-      - echo Pushing Docker images...
-      - docker tag $REPO_FRONTEND:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO_FRONTEND:latest
-      - docker tag $REPO_BACKEND:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO_BACKEND:latest
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO_FRONTEND:latest
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO_BACKEND:latest
+      - echo Tagging and Pushing Docker image...
+      - docker tag $ECR_REPO:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO:latest
 
 artifacts:
   files:
