@@ -2,6 +2,7 @@ version: 0.2
 env:
   variables:
     AWS_DEFAULT_REGION: "ap-south-1"
+    AWS_ACCOUNT_ID: "954976317841"
     REPO_FRONTEND: "ecommerce-frontend"
     REPO_BACKEND: "ecommerce-backend"
 phases:
